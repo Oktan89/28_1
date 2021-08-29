@@ -6,3 +6,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 add_executable(Swim ${SOURCES})
 
 target_include_directories(Swim PUBLIC ${MY_INCLUDE_DIR})
+
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads)
+target_link_libraries(Swim Threads::Threads)
