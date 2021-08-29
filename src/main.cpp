@@ -1,6 +1,8 @@
 #include <iostream>
 #include <thread>
 #include <mutex>
+#include <vector>
+#include "swimmer.h"
 
 void swim()
 {
@@ -9,7 +11,17 @@ void swim()
 
 int main()
 {
-    std::thread t(swim);
-    t.detach();
-    std::this_thread::sleep_for(std::chrono::seconds(4));
+    std::vector<Swimmer*> swim(6);
+
+    for(auto &s : swim)
+        s = new Swimmer;
+    
+    for(auto s : swim)
+        std::cout<<s->getName();
+
+    for(auto si : swim)
+        delete si;
+
+
+ 
 }
