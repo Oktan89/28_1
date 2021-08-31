@@ -20,9 +20,9 @@ public:
     {
 
     }
-    int getSpeed()
+    int getFinishTime()
     {
-        return _speed;
+        return _finishTime;
     }
     const char* getName()
     {
