@@ -9,9 +9,10 @@ class Swim
 protected:
     int _finishTime{0};
     int _howSwim{0};
+
 public:
     static constexpr int swimmingPoll{100};
-     int getFinishTime()
+    int getFinishTime()
     {
         return _finishTime;
     }
@@ -25,14 +26,12 @@ class Swimmer : public Swim
     std::thread t_start;
     std::mutex m_print;
 
-    
 public:
-    Swimmer(const std::string& name = "No name", int speed = 0) : _name(name), _speed(speed)
+    Swimmer(const std::string &name = "No name", int speed = 0) : _name(name), _speed(speed)
     {
-
     }
-   
-    const char* getName()
+
+    const char *getName()
     {
         return _name.c_str();
     }
@@ -48,27 +47,26 @@ public:
     void operator()()
     {
         std::size_t time{0};
-        while(_howSwim < Swim::swimmingPoll)
+        while (_howSwim < Swim::swimmingPoll)
         {
             std::this_thread::sleep_for(std::chrono::seconds(1));
             _howSwim += _speed;
             ++time;
             m_print.lock();
-            std::cout<<"The swemmer "<<_name<<" swam "<<((_howSwim > Swim::swimmingPoll)? 100 : _howSwim)<<" meters"<<std::endl;
+            std::cout << "The swemmer " << _name << " swam " << ((_howSwim > Swim::swimmingPoll) ? 100 : _howSwim) << " meters" << std::endl;
             m_print.unlock();
         }
-        
-            finish = true;
-            _finishTime = time;
-            m_print.lock();
-            std::cout<<"The swemmer "<<_name<<" finished in "<<_finishTime<<" seconds"<<std::endl;
-            m_print.unlock();
 
+        finish = true;
+        _finishTime = time;
+        m_print.lock();
+        std::cout << "The swemmer " << _name << " finished in " << _finishTime << " seconds" << std::endl;
+        m_print.unlock();
     }
 
     ~Swimmer()
     {
-        if(t_start.joinable())
+        if (t_start.joinable())
             t_start.join();
     }
 };
