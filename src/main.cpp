@@ -1,5 +1,4 @@
 #include <iostream>
-#include <thread>
 #include <vector>
 #include <algorithm>
 #include "swimmer.h"
@@ -11,7 +10,6 @@ bool compare(Swimmer *a, Swimmer *b)
 
 int main()
 {
-    int swimmingPoll{100};
     std::vector<Swimmer *> swim(6);
     std::string name;
     int speedMS;
@@ -21,29 +19,24 @@ int main()
         std::cin >> name >> speedMS;
         s = new Swimmer(name, speedMS);
     }
-        
 
-   
-    std::vector<std::thread> swimers(swim.size());
-    int k = 0;
-    for (int i = 0; i < swimmingPoll && k < swimers.size(); ++i)
+
+     for(auto &s : swim)
+            s->start();
+
+    bool end_swim{true};
+    while(end_swim)
     {
-        k = 0;
-     
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        for (int j = 0; j < swimers.size(); ++j)
+        int col{0};
+        for(const auto &s : swim)
         {
-            if (swim[j]->isFinished())
-            {
-                ++k;
-            }
-            else
-            {
-                swimers[j] = std::thread(std::ref(*swim[j]), i);
-                swimers[j].join();
-            }
-        }
+            if(s->isFinished())
+                ++col;
+        }   
+        if(col == swim.size())
+            end_swim = false;
     }
+
 
     std::sort(swim.begin(), swim.end(), compare);
 
