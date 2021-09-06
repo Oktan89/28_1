@@ -57,9 +57,9 @@ public:
             m_print.unlock();
         }
 
-        finish = true;
         _finishTime = time;
         m_print.lock();
+        finish = true;
         std::cout << "The swemmer " << _name << " finished in " << _finishTime << " seconds" << std::endl;
         m_print.unlock();
     }
