@@ -24,7 +24,7 @@ class Swimmer : public Swim
     int _speed{0};
     bool finish{false};
     std::thread t_start;
-    std::mutex m_print;
+    static std::mutex m_print;
 
 public:
     Swimmer(const std::string &name = "No name", int speed = 0) : _name(name), _speed(speed)
@@ -70,3 +70,4 @@ public:
             t_start.join();
     }
 };
+std::mutex Swimmer::m_print;
